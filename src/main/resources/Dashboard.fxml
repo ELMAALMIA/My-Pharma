@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="600.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.test.Controller.DashboardController">
+    <children>
+        <Pane prefHeight="600.0" prefWidth="1100.0">
+            <children>
+                <AnchorPane fx:id="leftAnchor" layoutY="1.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="600.0" prefWidth="240.0" stylesheets="@DashbordDesign.css">
+                    <children>
+                        <Label layoutX="24.0" layoutY="171.0" text="WELCOME ,">
+                            <font>
+                                <Font name="Bookman Old Style Italic" size="20.0" />
+                            </font>
+                        </Label>
+                        <Label fx:id="connectedUser" layoutX="135.0" layoutY="190.0" text="Admin">
+                            <font>
+                            </font>
+                        </Label>
+                        <Line endX="136.0" layoutX="85.0" layoutY="225.0" startX="-66.0" />
+
+                        <Button layoutX="57.0" layoutY="248.0" mnemonicParsing="false" onAction="#statistics" style="-fx-background-color: transparent;" text="Dashboard">
+                            <font>
+                                <Font name="Book Antiqua Bold Italic" size="20.0" />
+                            </font>
+                        </Button>
+
+                        <Button layoutX="66.0" layoutY="300.0" mnemonicParsing="false" onAction="#medicine" style="-fx-background-color: transparent;" text="Medicine">
+                            <font>
+                                <Font name="Book Antiqua Bold Italic" size="20.0" />
+                            </font>
+                        </Button>
+                        <Button layoutX="76.0" layoutY="350.0" mnemonicParsing="false" onAction="#profil" style="-fx-background-color: transparent;" text="Profile">
+                            <font>
+                                <Font name="Book Antiqua Bold Italic" size="20.0" />
+                            </font>
+                        </Button>
+
+                        <Button layoutX="72.0" layoutY="400.0" mnemonicParsing="false" onAction="#pay" style="-fx-background-color: transparent;" text="Facture">
+                            <font>
+                                <Font name="Book Antiqua Bold Italic" size="20.0" />
+                            </font>
+                        </Button>
+                        <Button layoutX="51.0" layoutY="545.0" mnemonicParsing="false" onAction="#signout" style="-fx-background-color: transparent;" stylesheets="@DashbordDesign.css" text="SignOut" textAlignment="CENTER">
+                            <font>
+                                <Font name="Sitka Small Italic" size="17.0" />
+                            </font>
+                        </Button>
+                  <ImageView fitHeight="137.0" fitWidth="146.0" layoutX="54.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" styleClass="nav-form">
+                     <image>
+                        <Image url="@assets/medicine.png" />
+                     </image>
+                  </ImageView>
+                  <Button layoutX="72.0" layoutY="467.0" mnemonicParsing="false" onAction="#custummerbutton" styleClass="filter" stylesheets="@DashbordDesign.css" text="CUSTUMER" />
+                    </children>
+               <styleClass>
+                  <String fx:value="nav-form" />
+                  <String fx:value="column-header" />
+               </styleClass></AnchorPane>
+                <AnchorPane fx:id="rightAnchor" layoutX="240.0" layoutY="1.0" prefHeight="600.0" prefWidth="860.0" stylesheets="@DashbordDesign.css" />
+            </children>
+        </Pane>
+    </children>
+</AnchorPane>
