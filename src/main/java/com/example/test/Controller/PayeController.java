@@ -146,13 +146,14 @@ public class PayeController  implements Initializable {
     // make table interactive with the mouse ( get date from table )
     public  void handlingMouse(){
         MedicineCommande medicineCommande = table_id.getSelectionModel().getSelectedItem();
-        id_medecine_text.setText(""+medicineCommande.getMedecinId());
+        if (medicineCommande != null) id_medecine_text.setText(""+medicineCommande.getMedecinId());
+
     }
 
     // function to add  new  medecine to table
     @FXML
     private void nouveauxCommandeMedecine(ActionEvent event) throws IOException,SQLException {
-            int qtestoks =10;
+            int qtestoks =PaymentManager.getStoksData(id_medecine_text.getText());
 
             if(qte > qtestoks){
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -186,7 +187,7 @@ public class PayeController  implements Initializable {
 
 
     public void updateCommandeMedecine(ActionEvent actionEvent) throws SQLException {
-        int qtestoks =10;
+        int qtestoks =PaymentManager.getStoksData(id_medecine_text.getText());
         if(qte > qtestoks){
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Quantity Information");
@@ -216,19 +217,8 @@ public class PayeController  implements Initializable {
 
 
     public void deleteCommandeMedecine(ActionEvent actionEvent) throws SQLException {
-        int qtestoks =10;
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        if(qte > qtestoks){
-            alert.setTitle("Quantite Information");
-            alert.setHeaderText(null);
-            alert.setContentText("The Quantite in the stoks is "+qtestoks);
-            alert.showAndWait();
-        }else if (qte == 0 || id_medecine_text.getText()==null){
-            alert.setTitle("Information");
-            alert.setHeaderText(null);
-            alert.setContentText("The quantity and id medecine are required  is required  !");
-            alert.showAndWait();
-        } else if (PaymentManager.getDataFromMedecine(id_medecine_text.getText() ) && PaymentManager.getDtaFromCommandeMedecine(id_medecine_text.getText())){
+      if (PaymentManager.getDataFromMedecine(id_medecine_text.getText() ) && PaymentManager.getDtaFromCommandeMedecine(id_medecine_text.getText())){
                 PaymentManager.deletedatafromtable(id_medecine_text.getText());
                 ShowDataTable();
                 PaymentManager.showDataLabelPriceTotale();
