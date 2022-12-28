@@ -51,7 +51,7 @@ public class medicineManager {
 
     public static void delete(String id) throws SQLException {
         con = Dbutils.getConnection();
-        String query = "DELETE FROM MEDICINE WHERE medicine_id = ?";
+        String query = "DELETE FROM medicine WHERE medicine_id = ? ";
         PreparedStatement stat = con.prepareStatement(query);
         stat.setString(1,id);
         stat.executeUpdate();
@@ -113,6 +113,4 @@ public class medicineManager {
         con.close();
         return listMedicines;
     }
-
-
 }

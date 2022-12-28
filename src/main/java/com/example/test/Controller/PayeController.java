@@ -102,7 +102,7 @@ public class PayeController  implements Initializable {
      // function payment button (facture payment)
     public  void  paymentFinal() throws SQLException {
         Double tDouble = PaymentManager.showDataLabelPriceTotale();
-        if (custummer_name_text.getText() =="" || tDouble ==0.0){
+        if (custummer_name_text.getText() .equals("") || tDouble ==0.0){
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("problem");
             alert.setHeaderText(" Trasaction not complet , you should ad name or add medecine ");
@@ -111,19 +111,17 @@ public class PayeController  implements Initializable {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION, " Are you suer to finish the transaction ?", ButtonType.YES, ButtonType.NO);
             alert.showAndWait();
             if (alert.getResult() == ButtonType.YES) {
+                PaymentManager.updatestocksdata();
                 PaymentManager.payer(custummer_name_text.getText(),tDouble);
                 ShowDataTable();
                 resetallcolums();
                 paymentPrice();
-
                 Alert alert1 = new Alert(Alert.AlertType.INFORMATION);
                 alert1.setTitle("succes Dialog");
                 alert1.setHeaderText(" Trasaction with succes ");
                 alert1.showAndWait();
 
             }
-
-
         }
     }
 

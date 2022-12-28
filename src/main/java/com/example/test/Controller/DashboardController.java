@@ -34,7 +34,7 @@ public class DashboardController {
         Node node = null;
 
         try {
-            node = (Node) FXMLLoader.load(this.getClass().getResource("/hello-view.fxml"));
+            node = (Node) FXMLLoader.load(this.getClass().getResource("/Medecine.fxml"));
         } catch (IOException var4) {
             var4.printStackTrace();
         }

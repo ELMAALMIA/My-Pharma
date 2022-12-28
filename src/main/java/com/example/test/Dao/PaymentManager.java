@@ -11,8 +11,6 @@ import java.time.LocalDate;
 
 public class PaymentManager {
     private static Connection conn  = Dbutils.getConnection();
-
-
     public static void payer(String cucustummer_name, Double tDouble) throws SQLException {
         Statement instruction = conn.createStatement();
         LocalDate date = java.time.LocalDate.now();
@@ -20,9 +18,8 @@ public class PaymentManager {
         " values('" + cucustummer_name + "','" + tDouble +  "',STR_TO_DATE('" + date + "','%Y-%m-%d'))";
         int resultat = instruction.executeUpdate(requet);
         String sqldelete = "delete from ITEMCOMMANDES";
-        int resultSet =instruction.executeUpdate(sqldelete);
+        int resultSet =instruction.executeUpdate(sqldelete);;
     }
-
     // get medecie data ( use in the table )
     public static ObservableList<MedicineCommande> getMedecineData() throws SQLException {
         ObservableList<MedicineCommande> medecinelist = FXCollections.observableArrayList();
@@ -40,7 +37,6 @@ public class PaymentManager {
         return medecinelist;
     }
 
-
     // fuction  to manipulate the labeel price
     public static Double showDataLabelPriceTotale() throws SQLException {
         ResultSet resultat = null;
@@ -53,7 +49,6 @@ public class PaymentManager {
         }
         return totale_price ;
     }
-
     public static void deletedatafromtable(String id_medecine) throws SQLException {
         Statement instruction = conn.createStatement();
         String requet = "delete from  ITEMCOMMANDES  where IDMEDECINE = '"+id_medecine+"'";
@@ -99,6 +94,24 @@ public class PaymentManager {
         }
         return sum;
     }
+    public static void updatestocksdata() throws SQLException {
+        ResultSet resultat = null;
+        Statement instruction = conn.createStatement();
+        String requet = "Select medicine.medicine_id,ITEMCOMMANDES.QUANTITEDEMANDER from medicine ,ITEMCOMMANDES where medicine.medicine_id like ITEMCOMMANDES.IDMEDECINE";
+        resultat = instruction.executeQuery(requet);
+        while (resultat.next()){
 
+            String id = resultat.getString("medicine_id");
+            Integer qte = resultat.getInt("QUANTITEDEMANDER");
+            int qtestoks= getStoksData(id)-qte;
+            deleteDataInStock(id,qtestoks);
+        }
 
+    }
+    public  static  void deleteDataInStock (String id_medecine , Integer qte) throws SQLException {
+        Statement instruction = conn.createStatement();
+        String requet = "update stock set Quantity =   '"+qte+"' where medicine_id = '"+id_medecine+"'";
+
+        int resultat = instruction.executeUpdate(requet);
+    }
 }
