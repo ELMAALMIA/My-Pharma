@@ -2,22 +2,25 @@ package com.example.test.Model;
 
 import java.sql.Date;
 
-public class Stock {
-    private Medicine medicine;
-    private int quantity;
-    private Date date;
+import java.sql.Date;
+import java.time.LocalDate;
 
-    public Stock(Medicine medicine, int quantity, Date date) {
+public class Stock {
+    private String medicine;
+    private int quantity;
+    private LocalDate date;
+
+    public Stock(String medicine, int quantity, LocalDate date) {
         this.medicine = medicine;
         this.quantity = quantity;
         this.date = date;
     }
 
-    public Medicine getMedicine() {
+    public String getMedicine() {
         return medicine;
     }
 
-    public void setMedicine(Medicine medicine) {
+    public void setMedicine(String medicine) {
         this.medicine = medicine;
     }
 
@@ -29,12 +32,11 @@ public class Stock {
         this.quantity = quantity;
     }
 
-    public Date getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 }
-

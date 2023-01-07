@@ -1,13 +1,19 @@
 package com.example.test.Dao;
-
 import com.example.test.Model.Medicine;
 import com.example.test.utiles.Dbutils;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
-public class medicineManager {
+public class MedicineManager {
+
+    public MedicineManager(){
+
+    }
+
     private static Connection con ;
 
     public static boolean insert(Medicine medicine) throws SQLException {
@@ -57,7 +63,7 @@ public class medicineManager {
         stat.executeUpdate();
         con.close();
     }
-    public static void update(String id,Medicine medicine) throws SQLException {
+    public static void update(Medicine medicine) throws SQLException {
         con = Dbutils.getConnection();
         String query = "UPDATE medicine set company_name = ?,medicine_name=?,type_product=?,price=?,Description=? where medicine_id =? ";
         PreparedStatement stat = con.prepareStatement(query);
@@ -113,4 +119,92 @@ public class medicineManager {
         con.close();
         return listMedicines;
     }
+
+    public static int getCountMedi() throws SQLException {
+        PreparedStatement stat = null;
+        ResultSet res = null;
+        Connection con = null;
+        String sql = "SELECT COUNT(*) FROM medicine;";
+
+        int count;
+        try {
+            con = Dbutils.getConnection();
+            stat = con.prepareStatement(sql);
+            res = stat.executeQuery();
+            if (res.next()) {
+                count = res.getInt("COUNT(*)");
+                return count;
+            }
+
+            count = 0;
+        } catch (Exception var10) {
+            byte c = 0;
+            return c;
+        } finally {
+            res.close();
+            stat.close();
+            con.close();
+        }
+
+        return count;
+    }
+
+    public static int getQuanAvailable() throws SQLException {
+        PreparedStatement stat = null;
+        ResultSet res = null;
+        Connection con = null;
+        String sql = "SELECT COUNT(medicine_id) FROM `stock`  WHERE  Quantity != 0";
+
+        int count = 0;
+        List<String> name = new ArrayList<>();
+        try {
+            con = Dbutils.getConnection();
+            stat = con.prepareStatement(sql);
+            res = stat.executeQuery();
+            if (res.next()) {
+                name.add(res.getString("COUNT(medicine_id)"));
+                System.out.println(res.getString("COUNT(medicine_id)"));
+                count = res.getInt("COUNT(medicine_id)");
+
+                return count;
+            }
+
+        } catch (Exception var10) {
+            System.out.println(var10.getMessage());
+        } finally {
+            res.close();
+            stat.close();
+            con.close();
+        }
+
+        return count;
+    }
+    public static int getQuanUnavailable() throws SQLException {
+        PreparedStatement stat = null;
+        ResultSet res = null;
+        Connection con = null;
+        String sql = "SELECT COUNT(medicine_id) FROM `stock`  WHERE  Quantity = 0";
+
+        int count = 0;
+        try {
+            con = Dbutils.getConnection();
+            stat = con.prepareStatement(sql);
+            res = stat.executeQuery();
+            if (res.next()) {
+                count = res.getInt("COUNT(medicine_id)");
+                return count;
+            }
+
+        } catch (Exception var10) {
+            System.out.println(var10.getMessage());
+
+        } finally {
+            res.close();
+            stat.close();
+            con.close();
+        }
+
+        return count;
+    }
+
 }

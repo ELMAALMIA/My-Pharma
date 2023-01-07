@@ -85,9 +85,10 @@ public class DashboardController {
     }
     public void custummerbutton(ActionEvent actionEvent) {
         Node node = null;
-
+//        node.getStyleClass().add(getClass().getResource("DashbordDesign.css").toExternalForm());
         try {
-            node = (Node)FXMLLoader.load(this.getClass().getResource("/Client.fxml"));
+            node = (Node)FXMLLoader.load(this.getClass().getResource("/Orders.fxml"));
+
 
         } catch (IOException var4) {
             var4.printStackTrace();
@@ -95,7 +96,7 @@ public class DashboardController {
 
         this.rightAnchor.getChildren().setAll(new Node[]{node});
         Stage stage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
-        stage.setTitle("Pharmacy management system : Customer");
+        stage.setTitle("Pharmacy management system : orders");
     }
 
     public void getUsername(String username){

@@ -1,13 +1,14 @@
 package com.example.test.Controller;
 
 
-import com.example.test.Dao.medicineManager;
+import com.example.test.Dao.MedicineManager;
 import com.example.test.Model.Medicine;
-
+import com.example.test.Model.MedicineCommande;
+import com.example.test.utiles.Dbutils;
 import javafx.beans.property.SimpleStringProperty;
-
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -19,8 +20,13 @@ import javafx.stage.FileChooser;
 
 import java.io.File;
 import java.net.URL;
-
+import java.security.cert.Extension;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
+import java.util.PropertyPermission;
 import java.util.ResourceBundle;
 
 public class MedecineControler  implements Initializable {
@@ -46,18 +52,32 @@ public class MedecineControler  implements Initializable {
     private final String[] typesOfMedicines = {"Liquid","Tablet","Capsules","Drops","Inhalers","Injections"};
     private String image_path ;
 
+    public static boolean CheckifDouble(String text){
+        boolean valid = false;
+        try{
+            Double.parseDouble(text);
+            valid = true;
+        }catch (NumberFormatException e){
+            System.out.println("not a double");
+        }finally {
+            return valid;
+        }
+    }
     public void addbtn() throws SQLException {
         Medicine medicine;
-        if ( !medicine_id.getText().trim().equals("") && !company_name.getText().trim().equals("") &&
-                !medicine_name.getText().trim().equals("") && !price.getText().trim().equals("") && null != image_path) {
-            System.out.println(image_path);
-            if(!medicineManager.CheckIfIdExist(medicine_id.getText())){
+
+        if ( !medicine_id.getText().trim().equals("") && !company_name.getText().trim().equals("") && !medicine_name.getText().trim().equals("")
+                && !price.getText().trim().equals("") &&  null !=medicineImage.getImage() && CheckifDouble(price.getText())) {
+            if(!MedicineManager.CheckIfIdExist(medicine_id.getText())){
                 medicine = new Medicine(medicine_id.getText(),company_name.getText(),
                         medicine_name.getText(),medicine_type.getValue(),Double.valueOf(price.getText()),"image_path",desciption_txt.getText());
                 medicine.setImage(image_path);
-                Boolean test = medicineManager.insert(medicine);
+                Boolean test = MedicineManager.insert(medicine);
+                if(test){
+                    System.out.println("inserted");
+                    clearbtn();
+                }
                 showList();
-                clearbtn();
             }
             else{
                 Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -69,7 +89,7 @@ public class MedecineControler  implements Initializable {
         }else{
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Invalid inputs");
-            alert.setContentText("Please fill the inputs");
+            alert.setContentText("Please fill the inputs correctly");
             alert.showAndWait();
         }
 
@@ -81,9 +101,10 @@ public class MedecineControler  implements Initializable {
         company_name.setText("");
         medicine_type.getSelectionModel().clearSelection();
         price.setText("");
-        medicineImage.setImage(null);
         desciption_txt.setText("");
         medicine_name.setText("");
+        image_path="";
+        medicineImage.setImage(null);
     }
 
     public void importbtn(){
@@ -97,7 +118,6 @@ public class MedecineControler  implements Initializable {
             image = new Image(file.toURI().toString(),101,128,false,true);
             medicineImage.setImage(image);
             image_path = file.getAbsolutePath();
-            System.out.println(image_path);
         }
     }
     public void deletebtn() throws SQLException {
@@ -106,7 +126,7 @@ public class MedecineControler  implements Initializable {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION,"Sure you wan't to remove the medicine with the id "+id_remove+" ?", ButtonType.YES, ButtonType.NO);
             alert.showAndWait();
             if(alert.getResult()==ButtonType.YES){
-                medicineManager.delete(id_remove);
+                MedicineManager.delete(id_remove);
                 clearbtn();
                 showList();
             }
@@ -116,25 +136,31 @@ public class MedecineControler  implements Initializable {
     public void updatebtn() throws SQLException {
         Medicine medicine;
         String id_update = medicine_id.getText();
-        if(!id_update.trim().equals("")){
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION,"Sureyou wan't to update  the medicine with the id "+id_update+" ?", ButtonType.YES, ButtonType.NO);
+        if(!id_update.trim().equals("") ){
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION,"Sure you wan't to update the medicine with the id "+id_update+" ?", ButtonType.YES, ButtonType.NO);
             alert.showAndWait();
-            if(alert.getResult()==ButtonType.YES){
-                medicine = new Medicine(id_update,company_name.getText(),medicine_name.getText(),medicine_type.getValue(),Double.parseDouble(price.getText()),"",desciption_txt.getText());
-                medicineManager.update(id_update, medicine);
-                clearbtn();
-                showList();
+            if(alert.getResult()==ButtonType.YES ){
+                if(!company_name.getText().trim().equals("") && !medicine_name.getText().trim().equals("")
+                        && !price.getText().trim().equals("") &&  null !=medicineImage.getImage() && CheckifDouble(price.getText())){
+                    medicine = new Medicine(id_update,company_name.getText(),medicine_name.getText(),medicine_type.getValue(),Double.parseDouble(price.getText()),"",desciption_txt.getText());
+                    MedicineManager.update(medicine);
+                    clearbtn();
+                    showList();
+                }else{
+                    alert = new Alert(Alert.AlertType.WARNING);
+                    alert.setTitle("Invalid inputs");
+                    alert.setContentText("Please fill the inputs correctly");
+                    alert.showAndWait();
+                }
             }
-
         }
-
     }
 
     public void searchbtn() throws SQLException {
         String id = searchtxt.getText();
-        if(!id.trim().equals("")){
-            if(medicineManager.CheckIfIdExist(id)){
-                ObservableList<Medicine>list=medicineManager.Search(id);
+        if(!id.trim().equals("") ){
+            if(MedicineManager.CheckIfIdExist(id)){
+                ObservableList<Medicine>list=MedicineManager.Search(id);
                 id_table_medicine.setItems(list);
             }
         }else{
@@ -144,7 +170,7 @@ public class MedecineControler  implements Initializable {
     }
 
     public void showList() throws SQLException {
-        ObservableList<Medicine>list=medicineManager.MedicineList();
+        ObservableList<Medicine>list=MedicineManager.MedicineList();
         table_medicine_id.setCellValueFactory(new PropertyValueFactory<Medicine,String>("medicineId"));//propertyvaluefactory takes from the class Medicine
         table_medicine_name.setCellValueFactory(new PropertyValueFactory<>("medicine_Name"));
         table_medicine_type.setCellValueFactory(data-> new SimpleStringProperty(data.getValue().getType()));
@@ -153,8 +179,7 @@ public class MedecineControler  implements Initializable {
         table_medicine_price.setCellValueFactory(new PropertyValueFactory<>("Price"));
         id_table_medicine.setItems(list);
     }
-    public void MouseClikingTable()  {
-
+    public void MouseClikingTable() throws SQLException {
         Medicine medicine = id_table_medicine.getSelectionModel().getSelectedItem();
         medicine_id.setText(medicine.getMedicineId());
         company_name.setText(medicine.getCompany_name());
@@ -162,12 +187,13 @@ public class MedecineControler  implements Initializable {
         medicine_type.setValue(medicine.getType());
         desciption_txt.setText(medicine.getDescription());
         price.setText(String.valueOf(medicine.getPrice()));
-        try {
-            File file = new File(medicineManager.getImage(medicine_id.getText()));
+        String image_path= MedicineManager.getImage(medicine_id.getText());
+        if(image_path!=null){
+            File file =  new File(image_path);
             Image image = new Image(file.toURI().toString(),101,128,false,true);
             medicineImage.setImage(image);
-        }catch (Exception e){
         }
+
     }
 
     @Override
@@ -175,7 +201,6 @@ public class MedecineControler  implements Initializable {
         try {
             showList();
             medicine_type.getItems().addAll(typesOfMedicines);
-
 
         } catch (SQLException e) {
             throw new RuntimeException(e);

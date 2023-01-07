@@ -3,6 +3,7 @@ package com.example.test.Controller;
 
 import com.example.test.Dao.PaymentManager;
 import com.example.test.Model.MedicineCommande;
+import com.example.test.Model.Orders;
 import com.example.test.utiles.Dbutils;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.ObservableList;
@@ -239,6 +240,7 @@ public class PayeController  implements Initializable {
             paymentPrice();
         }
     }
+
 
 
     @Override

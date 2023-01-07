@@ -72,8 +72,9 @@ public class LoginController {
 //                scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 //                stage.getIcons().add(new Image("assets/medicine.png"));
                     stage.setTitle("Pharmacy managment system ");
-                    stage.setResizable(false);
+
                     stage.sizeToScene();
+                    stage.setResizable(false);
                     stage.setScene(scene);
                     stage.show();
                 } catch(Exception e) {

@@ -55,13 +55,15 @@ public class ProfilController implements Initializable {
 
             if(newPassword.getText().equals(reNewPassword.getText())){
                 Dbutils.chanePassword(user.getText(), newPassword.getText());
+                ((Node)e.getSource()).getScene().getWindow().hide();
                 TrayNotification notif = new TrayNotification();
                 notif.setTray("User Panel", user.getText()+"' password was successfully changed", NotificationType.INFORMATION);
                 notif.setAnimationType(AnimationType.POPUP);
                 notif.setRectangleFill(Paint.valueOf("#2A9A84"));
                 notif.showAndDismiss(Duration.seconds(2));
+
                 Stage stage = new Stage();
-                Parent root = (Parent) FXMLLoader.load(this.getClass().getResource("resources/com/example/pharmacy/Login.fxml"));
+                Parent root = (Parent) FXMLLoader.load(this.getClass().getResource("/Login.fxml"));
                 Scene scene = new Scene(root);
                 //scene.getStylesheets().add(this.getClass().getResource("DashbordDesign.css").toExternalForm());
                 stage.setScene(scene);

@@ -3,7 +3,7 @@ CREATE TABLE users (
   username varchar(20) NOT NULL,
   password varchar(20) NOT NULL
 )
-
+;
 
 
 INSERT INTO users (username, password) VALUES
@@ -56,4 +56,13 @@ CREATE TABLE stock (
 ALTER TABLE stock
   ADD  FOREIGN KEY (medicine_id) REFERENCES
  medicine(medicine_id);
+
+
+create table OrderMedecine(
+  id INT NOT NULL AUTO_INCREMENT,
+  medecine_id VARCHAR(40) NOT NULL,
+   qte INT ,PRIMARY KEY (id)
+);
+
+ alter table OrderMedecine add date_order Date;
 

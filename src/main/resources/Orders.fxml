@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="556.0" prefWidth="879.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.test.Controller.OrdersController">
+   <children>
+      <AnchorPane layoutX="37.0" layoutY="216.0" prefHeight="335.0" prefWidth="811.0">
+         <children>
+            <ListView fx:id="panel_orders" layoutX="20.0" layoutY="24.0" onMouseClicked="#handlingMouse"
+                      style="-fx-text-fill: black;
+                       -fx-selection-bar:white;
+                       -fx-selection-bar-non-focused: lightgray;"
+                      prefHeight="279.0" prefWidth="774.0" stylesheets="@DashbordDesign.css">
+               <styleClass>
+                  <String fx:value="shodow" />
+                  <String fx:value="white-bg" />
+               </styleClass>
+            </ListView>
+         </children>
+      </AnchorPane>
+      <Pane layoutX="37.0" layoutY="38.0" prefHeight="167.0" prefWidth="811.0" stylesheets="@DashbordDesign.css">
+         <children>
+            <Label layoutX="28.0" layoutY="18.0" prefHeight="17.0" prefWidth="106.0" text="Medecine ID         :" />
+            <Label layoutX="28.0" layoutY="62.0" prefHeight="17.0" prefWidth="119.0" text="Medecine NAME   :" />
+            <Label layoutX="28.0" layoutY="108.0" prefHeight="17.0" prefWidth="106.0" text="Quantity to order :" />
+            <TextField fx:id="text_medicine" layoutX="169.0" layoutY="14.0" styleClass="textfield" stylesheets="@DashbordDesign.css" />
+            <TextField fx:id="text_name" layoutX="169.0" layoutY="57.0" styleClass="textfield" stylesheets="@DashbordDesign.css" />
+            <Spinner fx:id="spinner_id" layoutX="169.0" layoutY="103.0" onMouseClicked="#pushQuantite" styleClass="textfield" stylesheets="@DashbordDesign.css" />
+            <Button fx:id="button_add" layoutX="637.0" layoutY="20.0" mnemonicParsing="false" onAction="#addCommande" prefHeight="30.0" prefWidth="119.0" styleClass="add-btn" stylesheets="@DashbordDesign.css" text="Add Order" />
+            <Button fx:id="button_search" layoutX="637.0" layoutY="110.0" mnemonicParsing="false" onAction="#searchMedicine" prefHeight="30.0" prefWidth="119.0" stylesheets="@DashbordDesign.css" text="Search   ">
+               <styleClass>
+                  <String fx:value="add-btn" />
+                  <String fx:value="bacg" />
+               </styleClass>
+            </Button>
+            <AnchorPane layoutX="422.0" layoutY="11.0" prefHeight="134.0" prefWidth="106.0" stylesheets="DashbordDesign.css">
+               <styleClass>
+                  <String fx:value="white-bg" />
+                  <String fx:value="shodow" />
+               </styleClass>
+               <children>
+                  <ImageView fx:id="medicineImage" fitHeight="128.0" fitWidth="101.0" layoutX="1.0" pickOnBounds="true" preserveRatio="true" />
+               </children>
+            </AnchorPane>
+            <Button fx:id="update_btn" layoutX="637.0" layoutY="62.0" mnemonicParsing="false" onAction="#updateData" prefHeight="30.0" prefWidth="119.0" styleClass="update-btn" stylesheets="@DashbordDesign.css" text="Update" />
+         </children>
+         <styleClass>
+            <String fx:value="white-bg" />
+            <String fx:value="shodow" />
+         </styleClass>
+      </Pane>
+   </children>
+</AnchorPane>

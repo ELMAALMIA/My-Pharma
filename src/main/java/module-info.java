@@ -12,4 +12,6 @@ module com.example.test {
     opens com.example.test.Controller to javafx.fxml;
     exports com.example.test.Model;
     opens com.example.test.Model to javafx.fxml;
+    exports com.example.test.Dao;
+    opens com.example.test.Dao to javafx.fxml;
 }

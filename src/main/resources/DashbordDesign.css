@@ -76,7 +76,9 @@
 .add-btn:hover{
     -fx-background-color:#475d90;
 }
-
+.list-cell {
+  margin: 10px;
+}
 
 .update-btn{
     -fx-background-color:#375d4f;
@@ -119,7 +121,7 @@
 
 
 
-/*.nav-btn{
+.nav-btn{
        -fx-background-color;transparent;
        -fx-cursor:hand;
        -fx-font-size:14px;
@@ -130,4 +132,4 @@
   .shodow{
       -fx-effect:dropshadow(three-pass-box,rgba(0,0,0,.5),6,0,0,0);
 
-  }*/
+  }
